@@ -3,9 +3,38 @@
 		<title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- // <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-	</head>
+	<script>
+        $(function() {
+            $( "#slider" ).slider();
+            
+            var ws = new WebSocket("ws://" + location.host + "/echo");
+            ws.onmessage = function(evt){ 
+                    var received_msg = evt.data;
+                    $("#quotes").html(received_msg);
+            };
+
+            ws.onopen = function(){
+                ws.send("BUILD_MAP");
+            };
+
+            $( "#slider" ).slider({
+              slide: function( event, ui ) {
+                var num = $("#slider").slider("value");
+                var difference = {{longest}} - {{shortest}};
+                var new_num = Math.round(num/100 * difference + {{shortest}});
+                // $("#quotes").html(new_num);
+                ws.send(new_num);
+              }
+            });
+        });
+        // $("#slider").slider("value")
+    </script>
+    </head>
 	<body>
     {% block content %}
     {% endblock %}

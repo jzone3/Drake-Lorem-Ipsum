@@ -2,13 +2,6 @@
 {% block title %}Drake Lorem Ipsum{% endblock %}
 {% block content %}
 	<h4>Drake Lorem Ipsum!</h4>
-	<form action="/character-count">
-		<input name="characters" type="text"></input>
-		<button type="submit">Submit!</button>
-	</form>
-	From {{shortest}} to {{longest}}
-	<hr>
-	<br><br>
-	<textarea id="quotes">Lorem Ipsum..................</textarea>
+	<textarea contenteditable="false" id="quotes">Lorem Ipsum..................</textarea>
 	<div id="slider"></div>
 {% endblock %}
